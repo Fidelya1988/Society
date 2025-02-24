@@ -1,20 +1,13 @@
-'use client';
-
-import { signIn, signOut, useSession } from "next-auth/react";
+import AuthGuard from "@/components/AuthGuard";
+import Dashboard from "@/components/Dashboard";
 
 export default function Home() {
-  const { data: session } = useSession();
 
   return (
     <div>
-      {session ? (
-        <>
-          <p>Вітаю, {session.user?.name}!</p>
-          <button onClick={() => signOut()}>Вийти</button>
-        </>
-      ) : (
-        <button onClick={() => signIn("google")}>Увійти через Google</button>
-      )}
+      <AuthGuard>
+      <Dashboard />
+      </AuthGuard>
     </div>
   );
 }
