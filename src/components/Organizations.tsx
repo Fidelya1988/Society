@@ -34,12 +34,12 @@ export default function Organizations (){
         </CollapsibleTrigger>
       </div>
 
-      <div className="rounded-md border px-4 py-3 font-mono text-sm">
+      <div className="rounded-md border px-4 py-3 text-sm">
        {data[0]}
       </div>
       <CollapsibleContent className="space-y-2">
       {data.map((item, index) => 
-       index>0 && <div key={item} className="rounded-md border px-4 py-3 font-mono text-sm">
+       index>0 && <div key={item} className="rounded-md border px-4 py-3 text-sm">
           {item}
         </div>)}
       

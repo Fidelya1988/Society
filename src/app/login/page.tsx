@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
 import googleLogo from "@/app/assets/google-logo.svg";
+
 import Image from "next/image";
 
 export default function Login() {
@@ -10,7 +11,6 @@ export default function Login() {
     <div>
       <Button
         variant="outline"
-        className="text-primary"
         onClick={() => signIn("google")}
       >
         Sign in with Google{" "}

@@ -3,6 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
+import { ChevronLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -29,7 +31,9 @@ const FormSchema = z.object({
     .optional(),
 });
 
-export default function InputForm() {
+export default function CreateOrg() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -42,44 +46,54 @@ export default function InputForm() {
   }
 
   return (
-    <Card className="w-[30rem] flex flex-col items-center pt-2 pb-4">
-      <CardTitle className="text-center">Create Your Organization</CardTitle>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-2/3 space-y-6"
-        >
-          <FormField
-            control={form.control}
-            name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Title</FormLabel>
-                <FormControl>
-                  <Input placeholder="type title" {...field} />
-                </FormControl>
+    <div>
+      <Button
+        variant="outline"
+        className="mb-4"
+        onClick={() => router.push("/")}
+      >
+        <ChevronLeft className="h-4 w-4" />
+        Back to Dashboard
+      </Button>
+      <Card className="w-[30rem] flex flex-col items-center pt-2 pb-4">
+        <CardTitle className="text-center">Create Your Organization</CardTitle>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-2/3 space-y-6"
+          >
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Title</FormLabel>
+                  <FormControl>
+                    <Input placeholder="type title" {...field} />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <Textarea placeholder="type short description" {...field} />
-                </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="type short description" {...field} />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">Submit</Button>
-        </form>
-      </Form>
-    </Card>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Submit</Button>
+          </form>
+        </Form>
+      </Card>
+    </div>
   );
 }

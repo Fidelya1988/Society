@@ -14,15 +14,40 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  role String  @default("user")
-  position Position? @relation(fields: [positionId], references: [id])
-  positionId Int?
-  @@index([positionId], name: "positionId") 
+  id                Int             @id @default(autoincrement())
+  email             String          @unique
+  role              String          @default("user")
+  organizations     Organization[]  @relation("UserOrganizations")
+  positionsInOrg    UserPosition[]
+  organizationsOwned Organization[] @relation("OrganizationOwner")
 }
+
 model Position {
-  id    Int     @id @default(autoincrement())
-  name  String
-  users User[]
+  id             Int             @id @default(autoincrement())
+  name           String
+  usersInOrg     UserPosition[] 
+  organizations  Organization[]  @relation("PositionOrganizations")  
+}
+
+model Organization {
+  id          Int         @id @default(autoincrement())
+  name        String
+  description String
+  owner       User        @relation("OrganizationOwner", fields: [ownerId], references: [id])
+  ownerId     Int
+  users       User[]      @relation("UserOrganizations")
+  positions   Position[]  @relation("PositionOrganizations")
+  userPositions UserPosition[] 
+}
+
+// Проміжна таблиця для зв'язку користувачів з їх позиціями в організаціях
+model UserPosition {
+  userId        Int
+  positionId    Int
+  organizationId Int
+  user          User        @relation(fields: [userId], references: [id])
+  position      Position    @relation(fields: [positionId], references: [id])
+  organization  Organization @relation(fields: [organizationId], references: [id])
+
+  @@id([userId, positionId, organizationId])  // Комбінований ключ для унікальності зв'язку
 }
