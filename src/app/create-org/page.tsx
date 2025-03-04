@@ -1,5 +1,4 @@
 "use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -42,11 +41,17 @@ export default function CreateOrg() {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
+    fetch("/api/org", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({name: data.title, ownerId: 1, description: data.description}),
+    });
+   
   }
 
-  return (
-    <div>
+  return (<div>
       <Button
         variant="outline"
         className="mb-4"
@@ -90,6 +95,7 @@ export default function CreateOrg() {
                 </FormItem>
               )}
             />
+          
             <Button type="submit">Submit</Button>
           </form>
         </Form>
