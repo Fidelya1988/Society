@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
       pathname: '/a/**',
       search: '',
     },
+    {
+      protocol: 'https',
+      hostname: 'storage.googleapis.com',
+      pathname: '/**',
+    },
   ],
 }
   /* config options here */

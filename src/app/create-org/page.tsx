@@ -1,4 +1,5 @@
 "use client";
+import { useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -32,6 +33,7 @@ const FormSchema = z.object({
 
 export default function CreateOrg() {
   const router = useRouter();
+  const {data: session} = useSession();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -55,7 +57,7 @@ export default function CreateOrg() {
       <Button
         variant="outline"
         className="mb-4"
-        onClick={() => router.push("/")}
+        onClick={() => router.push(`/${session?.user?.id}`)}
       >
         <ChevronLeft className="h-4 w-4" />
         Back to Dashboard
